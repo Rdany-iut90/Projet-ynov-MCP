@@ -1,5 +1,5 @@
 fastmcp
-tensorflow
+scikit-learn
 mlflow
 pillow
 numpy
@@ -8,5 +8,4 @@ langchain
 langchain-mcp-adapters
 langchain-ollama
 uvicorn
-torch
-torchvision
+google-cloud-storage

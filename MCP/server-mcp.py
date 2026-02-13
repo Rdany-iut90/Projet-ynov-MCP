@@ -31,7 +31,7 @@ def train_dirty_model(n_trees: int = 10):
         clf = RandomForestClassifier(n_estimators=n_trees, max_depth=3)
         
         with mlflow.start_run() as run:
-            print(f"Entraînement avec {n_trees} arbres...")
+            print(f"🌲 Entraînement avec {n_trees} arbres...")
             clf.fit(X_train, y_train)
 
             # 3. Calcul des métriques
@@ -54,7 +54,7 @@ def train_dirty_model(n_trees: int = 10):
                 input_example=X_train[:5] 
             )
             
-            print(f"✅ Terminé. Accuracy: {accuracy:.2f}")
+            print(f"Terminé. Accuracy: {accuracy:.2f}")
 
         return (f"Expérience terminée !\n"
                 f" Accuracy: {accuracy:.2f}\n"
@@ -62,7 +62,32 @@ def train_dirty_model(n_trees: int = 10):
                 f" Le modèle a été sauvegardé dans l'artefact 'model_artifact'.")
 
     except Exception as e:
-        return f"❌ Erreur : {str(e)}"
+        return f"Erreur : {str(e)}"
+    
+@mcp.tool()
+def register_model_to_registry(run_id: str, model_name: str, artifact_path: str = "model_artifact"):
+    """
+    Enregistre un modèle depuis une Run existante vers le Model Registry de MLflow.
+    
+    Args:
+        run_id: L'identifiant de la run (récupéré lors de l'entraînement).
+        model_name: Le nom unique à donner au modèle dans le registre (ex: "RandomForest_Production").
+        artifact_path: Le dossier où le modèle est stocké (par défaut "model_artifact" comme dans train_dirty_model).
+    """
+    try:
+        print(f" Tentative d'enregistrement du run {run_id} sous le nom {model_name}...")
+        
+
+        model_uri = f"runs:/{run_id}/{artifact_path}"
+        registered_model = mlflow.register_model(model_uri, model_name)
+        
+        return (f" Succès ! Modèle enregistré.\n"
+                f"Nom : {registered_model.name}\n"
+                f"Version : {registered_model.version}\n"
+                f"Source : {model_uri}")
+
+    except Exception as e:
+        return f"❌ Erreur lors de l'enregistrement : {str(e)}"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
