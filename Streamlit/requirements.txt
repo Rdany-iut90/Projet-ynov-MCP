@@ -1,0 +1,10 @@
+streamlit
+mcp
+langchain-mcp-adapters
+langchain-ollama
+langchain
+langchain-community
+langchainhub
+aiohttp
+requests
+gunicorn

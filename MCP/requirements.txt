@@ -1,0 +1,12 @@
+fastmcp
+tensorflow
+mlflow
+pillow
+numpy
+PyGithub
+langchain
+langchain-mcp-adapters
+langchain-ollama
+uvicorn
+torch
+torchvision
