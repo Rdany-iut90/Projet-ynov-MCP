@@ -31,7 +31,7 @@ def train_dirty_model(n_trees: int = 10):
         clf = RandomForestClassifier(n_estimators=n_trees, max_depth=3)
         
         with mlflow.start_run() as run:
-            print(f"🌲 Entraînement avec {n_trees} arbres...")
+            print(f"Entraînement avec {n_trees} arbres...")
             clf.fit(X_train, y_train)
 
             # 3. Calcul des métriques
